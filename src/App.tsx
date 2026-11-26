@@ -14,6 +14,7 @@ import {
 import { AccreditationTrustStrip } from './components/AccreditationTrustStrip';
 import { ContactPage } from './components/ContactPage';
 import { CurriculumSection } from './components/CurriculumSection';
+import { EnrollmentCountdown } from './components/EnrollmentCountdown';
 import { EnrollmentModal } from './components/EnrollmentModal';
 import { FaqPage } from './components/FaqPage';
 import { SavingsCalculator } from './components/SavingsCalculator';
@@ -85,6 +86,17 @@ export default function App() {
       window.removeEventListener('scroll', updateVisibility);
     };
   }, [activePage]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const getScrollBehavior = (): ScrollBehavior =>
     typeof window !== 'undefined' &&
@@ -422,6 +434,10 @@ export default function App() {
           <SeminarsPage
             onSelectPlatinum={() => navigateTo('course')}
             onEnrollPlatinum={() => openEnrollModal('enroll')}
+            onRequestSeminarInfo={(prefill) => {
+              setContactPrefill(prefill);
+              navigateTo('contact');
+            }}
           />
         )}
 
@@ -460,8 +476,9 @@ export default function App() {
                 />
               </div>
 
-              <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
-                <div className="max-w-3xl">
+              <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
+                  <div className="lg:col-span-7">
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -599,6 +616,11 @@ export default function App() {
                       Group Pricing Calculator
                     </a>
                   </motion.div>
+                  </div>
+
+                  <div className="lg:col-span-5">
+                    <EnrollmentCountdown />
+                  </div>
                 </div>
               </div>
             </section>
@@ -744,17 +766,35 @@ export default function App() {
                     </div>
                   </motion.div>
 
-                  <div className="flex flex-col justify-between gap-4 lg:col-span-7">
-                    {PACKAGE_DELIVERABLES.map((item, idx) => (
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={{
+                      hidden: {},
+                      visible: {
+                        transition: {
+                          delayChildren: 0.12,
+                          staggerChildren: 0.075,
+                        },
+                      },
+                    }}
+                    className="flex flex-col justify-between gap-4 lg:col-span-7"
+                  >
+                    {PACKAGE_DELIVERABLES.map((item) => (
                       <motion.div
                         key={item.number}
-                        initial={{ opacity: 0, y: 12 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.15 }}
-                        transition={{
-                          duration: 0.22,
-                          delay: idx * 0.05,
-                          ease: [0.16, 1, 0.3, 1],
+                        variants={{
+                          hidden: { opacity: 0, y: 14, scale: 0.96 },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            transition: {
+                              duration: 0.24,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                          },
                         }}
                         className="group hover-lift rounded-xl border border-[#E4E7EC] bg-white p-6"
                       >
@@ -773,7 +813,7 @@ export default function App() {
                         </div>
                       </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </section>
@@ -926,7 +966,7 @@ export default function App() {
                           type="button"
                           onClick={() => setOpenFaqId(isOpen ? '' : faq.id)}
                           aria-expanded={isOpen}
-                          className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors duration-150 hover:bg-[#F6F1E9]/85 focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-[#41909D] cursor-pointer"
+                          className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors duration-150 hover:bg-[#F6F1E9]/85 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#41909D] cursor-pointer"
                         >
                           <span className="font-display text-base font-semibold text-[#0A2039]">
                             {faq.question}
@@ -1111,6 +1151,17 @@ export default function App() {
               Back to top
             </button>
           </div>
+        </div>
+
+        <div className="mx-auto mt-8 flex max-w-6xl flex-col items-start justify-between gap-2 border-t border-[#1F4A7D]/70 px-4 pt-6 text-xs text-[#BFE0E4]/80 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+          <p>
+            © 2026 @Splashstudio · Design &amp; Web Preview Sample · All rights
+            reserved.
+          </p>
+          <p>
+            Ascend Anesthesia Seminars · AANA Prior Approval Code{' '}
+            <span className="font-num-tabular">{COURSE_META.aanaCode}</span>
+          </p>
         </div>
       </footer>
 

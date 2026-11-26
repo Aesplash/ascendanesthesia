@@ -450,6 +450,274 @@ export const POCUS_EXAMS = [
   'Airway Ultrasound',
 ];
 
+export interface ThinkificCourseItem {
+  id: string;
+  programId: 'modern-practice' | 'anesthesia-context' | '1099-blueprint';
+  programLabel: string;
+  tier: 'Basic' | 'Silver' | 'Gold' | 'Platinum' | 'Full Course';
+  title: string;
+  lessons: number;
+  price: string;
+  ceCredits: string;
+  pharmCredits?: string;
+  aanaCode: string;
+  expirationDate: string;
+  summary: string;
+  courseUrl: string;
+  enrollUrl?: string;
+  isFlagship?: boolean;
+}
+
+export interface ThinkificProgramSummary {
+  id:
+    | 'modern-practice'
+    | 'anesthesia-context'
+    | 'high-stakes-pharmacology'
+    | '1099-blueprint'
+    | 'substance-use-prescribing';
+  title: string;
+  subtitle: string;
+  aanaCode: string;
+  expirationDate: string;
+  ceCredits: string;
+  pharmCredits?: string;
+  format: string;
+  description: string;
+  priceRange: string;
+  hasCatalogPackages: boolean;
+}
+
+export const THINKIFIC_PROGRAMS: ThinkificProgramSummary[] = [
+  {
+    id: 'modern-practice',
+    title: 'Modern Anesthesia Practice: Safety, Compliance & Advanced Clinical Care',
+    subtitle: '5-Day Seminar · 4 Package Tiers',
+    aanaCode: '1046673',
+    expirationDate: '02/11/2027',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '10.50 Pharm',
+    format: '5-Day Online Seminar · No Post-Tests',
+    priceRange: '$499.99 – $3,899.99',
+    description:
+      'Perioperative cardiac devices, precision fluid management, neuromuscular blockade, protective ventilation, ketamine, medico-legal practice, and neuroanesthetic crises.',
+    hasCatalogPackages: true,
+  },
+  {
+    id: 'anesthesia-context',
+    title: 'Anesthesia in Context: Managing Complex Situations in the OR',
+    subtitle: '5-Day Seminar · 4 Package Tiers',
+    aanaCode: '1046968',
+    expirationDate: '05/10/2027',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '8.00 Pharm',
+    format: '5-Day Online Seminar · No Post-Tests',
+    priceRange: '$499.99 – $3,899.99',
+    description:
+      'Case-driven management of complex intraoperative scenarios across 5 seminar days, offered across Basic, Silver, Gold, and Platinum (Butterfly iQ+) tiers.',
+    hasCatalogPackages: true,
+  },
+  {
+    id: 'high-stakes-pharmacology',
+    title: 'High-Stakes Pharmacology: Drug Management Across the Perioperative Spectrum',
+    subtitle: '25-Credit Pharmacology-Focused Seminar',
+    aanaCode: '1047194',
+    expirationDate: '08/03/2027',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '14.00 Pharm',
+    format: 'AANA Prior Approved Custom Seminar',
+    priceRange: 'Custom Seminar · Request Info',
+    description:
+      'Prior approved by the AANA for 25 MAC Ed CE credits, with up to 14.00 CE credits in Pharmacology & Therapeutics.',
+    hasCatalogPackages: false,
+  },
+  {
+    id: '1099-blueprint',
+    title: 'Next Level Practice Model: 1099 Blueprint',
+    subtitle: '3-Day Practice Transition Course',
+    aanaCode: '1046675',
+    expirationDate: '03/02/2027',
+    ceCredits: '12.00 MAC Ed CE',
+    format: '3-Day Online Course · 11 Lessons',
+    priceRange: '$300.00',
+    description:
+      'CRNA transition guide from W-2 employment to 1099 independent practice—covering contract negotiation, financial setup, and avoiding common pitfalls.',
+    hasCatalogPackages: true,
+  },
+  {
+    id: 'substance-use-prescribing',
+    title: 'Substance Use Disorder & Prescribing of Controlled Substances Training',
+    subtitle: '5-Hour State & Opioid Compliance',
+    aanaCode: '1046238',
+    expirationDate: '09/28/2026',
+    ceCredits: '5.00 MAC Ed CE',
+    pharmCredits: '5.00 Pharm',
+    format: '5 Hours State-Required Opioid & Abuse Training',
+    priceRange: 'Custom Seminar · Request Info',
+    description:
+      'Prior approved by the AANA for 5 MAC Ed CE credits (up to 5.00 Pharmacology & Therapeutics), meeting 5 hours of state-required Safe Controlled Substance Prescribing, Opioid Hours, and Substance Abuse Training.',
+    hasCatalogPackages: false,
+  },
+];
+
+export const THINKIFIC_COURSES: ThinkificCourseItem[] = [
+  {
+    id: 'map-platinum',
+    programId: 'modern-practice',
+    programLabel: 'Modern Anesthesia Practice',
+    tier: 'Platinum',
+    title: 'Modern Anesthesia Practice: Platinum Package',
+    lessons: 18,
+    price: '$3,899.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '10.50 Pharm',
+    aanaCode: '1046673',
+    expirationDate: '2/11/2027',
+    summary:
+      'Complete 5-day curriculum plus Module 1 Butterfly iQ+ handheld ultrasound order form, custom employer brochure, and moderator access.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/modern-anesthesia-practice-platinum',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688173',
+    isFlagship: true,
+  },
+  {
+    id: 'map-gold',
+    programId: 'modern-practice',
+    programLabel: 'Modern Anesthesia Practice',
+    tier: 'Gold',
+    title: 'Modern Anesthesia Practice: Gold Package',
+    lessons: 17,
+    price: '$1,349.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '10.50 Pharm',
+    aanaCode: '1046673',
+    expirationDate: '2/11/2027',
+    summary:
+      '25.00 Class A CE seminar with Gold tier benefits, custom destination documentation, and automatic AANA transcript upload.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/modern-anesthesia-practice-gold',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688106',
+  },
+  {
+    id: 'map-silver',
+    programId: 'modern-practice',
+    programLabel: 'Modern Anesthesia Practice',
+    tier: 'Silver',
+    title: 'Modern Anesthesia Practice: Silver Package',
+    lessons: 17,
+    price: '$1,099.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '10.50 Pharm',
+    aanaCode: '1046673',
+    expirationDate: '2/11/2027',
+    summary:
+      '25.00 Class A CE seminar with Silver tier package inclusions, custom brochure access, and zero mandatory post-tests.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/modern-anesthesia-practice-silver',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688104',
+  },
+  {
+    id: 'map-basic',
+    programId: 'modern-practice',
+    programLabel: 'Modern Anesthesia Practice',
+    tier: 'Basic',
+    title: 'Modern Anesthesia Practice: Basic Package',
+    lessons: 17,
+    price: '$499.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '10.50 Pharm',
+    aanaCode: '1046673',
+    expirationDate: '2/11/2027',
+    summary:
+      'Core 5-day 25.00 MAC Ed CE curriculum with default and custom destination brochures plus expert moderator Q&A.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/modern_anesthesia_practice',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3686703',
+  },
+  {
+    id: 'aic-platinum',
+    programId: 'anesthesia-context',
+    programLabel: 'Anesthesia in Context',
+    tier: 'Platinum',
+    title: 'Anesthesia in Context: Platinum Package',
+    lessons: 20,
+    price: '$3,899.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '8.00 Pharm',
+    aanaCode: '1046968',
+    expirationDate: '5/10/2027',
+    summary:
+      'Managing Complex Situations in the OR bundled with the Butterfly iQ+ handheld ultrasound order workflow and custom destination brochure.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/anesthesia-in-context-managing-complex-situations-in-the-or-platinum-package',
+  },
+  {
+    id: 'aic-gold',
+    programId: 'anesthesia-context',
+    programLabel: 'Anesthesia in Context',
+    tier: 'Gold',
+    title: 'Anesthesia in Context: Gold Package',
+    lessons: 19,
+    price: '$1,349.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '8.00 Pharm',
+    aanaCode: '1046968',
+    expirationDate: '5/10/2027',
+    summary:
+      '25.00 Class A CE credits (8.00 Pharm) covering complex intraoperative scenarios with Gold tier package inclusions.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/anesthesia-in-context-managing-complex-situations-in-the-or-gold-package',
+  },
+  {
+    id: 'aic-silver',
+    programId: 'anesthesia-context',
+    programLabel: 'Anesthesia in Context',
+    tier: 'Silver',
+    title: 'Anesthesia in Context: Silver Package',
+    lessons: 19,
+    price: '$1,099.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '8.00 Pharm',
+    aanaCode: '1046968',
+    expirationDate: '5/10/2027',
+    summary:
+      '25.00 Class A CE credits (8.00 Pharm) for managing complex OR situations with Silver tier package inclusions.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/anesthesia-in-context-managing-complex-situations-in-the-or-silver-package',
+  },
+  {
+    id: 'aic-basic',
+    programId: 'anesthesia-context',
+    programLabel: 'Anesthesia in Context',
+    tier: 'Basic',
+    title: 'Anesthesia in Context: Basic Package',
+    lessons: 19,
+    price: '$499.99',
+    ceCredits: '25.00 MAC Ed CE',
+    pharmCredits: '8.00 Pharm',
+    aanaCode: '1046968',
+    expirationDate: '5/10/2027',
+    summary:
+      'Core 5-day complex OR seminar (25.00 MAC Ed CE, 8.00 Pharm) with custom destination documentation and zero post-tests.',
+    courseUrl:
+      'https://ascendanesthesia.thinkific.com/courses/anesthesia-in-context-managing-complex-situations-in-the-or',
+  },
+  {
+    id: '1099-blueprint',
+    programId: '1099-blueprint',
+    programLabel: 'Next Level Practice Model',
+    tier: 'Full Course',
+    title: 'Next Level Practice Model: 1099 Blueprint',
+    lessons: 11,
+    price: '$300.00',
+    ceCredits: '12.00 MAC Ed CE',
+    aanaCode: '1046675',
+    expirationDate: '03/02/2027',
+    summary:
+      'Step-by-step CRNA transition guide from W-2 employment to 1099 practice—negotiating higher pay, structuring finances, and avoiding pitfalls.',
+    courseUrl: 'https://ascendanesthesia.thinkific.com/courses/1099blueprint',
+  },
+];
+
 export const SEMINAR_CATALOG = [
   {
     id: 'platinum',
@@ -462,23 +730,23 @@ export const SEMINAR_CATALOG = [
     isFeatured: true,
   },
   {
-    id: 'standard-seminars',
-    title: 'Online CRNA Continuing Education Seminars',
-    credits: 'AANA Class A CE Credits',
-    format: 'Self-Paced Online · No Post-Tests',
-    price: 'Group & Loyalty Discounts Available',
+    id: 'anesthesia-in-context',
+    title: 'Anesthesia in Context: Managing Complex Situations in the OR',
+    credits: '25.00 MAC Ed CE · 8.00 Pharm',
+    format: '5-Day Seminar · Basic through Platinum',
+    price: '$499.99 – $3,899.99',
     description:
-      'Browse all active AANA-approved seminars designed by CRNAs to keep high-quality CE accessible and affordable.',
+      'Complex intraoperative management across 5 structured seminar days with automatic AANA reporting and zero post-tests.',
     isFeatured: false,
   },
   {
-    id: 'onsite-ultrasound',
-    title: 'On-Site Institutional Ultrasound & POCUS Training',
-    credits: 'Custom Institutional Curriculum',
-    format: 'In-Person · 1-on-1 Hands-On Practice',
-    price: 'Free Custom Estimate',
+    id: '1099-blueprint',
+    title: 'Next Level Practice Model: 1099 Blueprint',
+    credits: '12.00 MAC Ed CE',
+    format: '3-Day Practice Transition · 11 Lessons',
+    price: '$300.00',
     description:
-      'Independent CRNA instructors travel to your hospital, anesthesia group, or program for hands-on POCUS and regional anesthesia training.',
+      'Practical W-2 to 1099 CRNA transition blueprint covering compensation negotiation, business setup, and risk mitigation.',
     isFeatured: false,
   },
 ];

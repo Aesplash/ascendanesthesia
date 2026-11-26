@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronDown, PlayCircle, X } from 'lucide-react';
 import {
@@ -26,6 +26,17 @@ export function CurriculumSection() {
   const [previewLesson, setPreviewLesson] = useState<CurriculumLesson | null>(
     null
   );
+
+  useEffect(() => {
+    if (!previewLesson) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setPreviewLesson(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [previewLesson]);
 
   const visibleChapters =
     activeFilter === 'all'
@@ -144,7 +155,7 @@ export function CurriculumSection() {
                   onClick={() => toggleChapter(chapter.id)}
                   aria-expanded={isOpen}
                   aria-controls={`chapter-panel-${chapter.id}`}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-[#F6F1E9]/70 focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-[#41909D] cursor-pointer sm:px-6"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-[#F6F1E9]/70 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#41909D] cursor-pointer sm:px-6"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-semibold text-[#6B7684]">
