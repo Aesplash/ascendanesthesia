@@ -1,0 +1,8 @@
+{
+  "name": "Ascend Anesthesia Seminars — Modern Anesthesia Practice Platinum",
+  "description": "High-converting course landing page for Modern Anesthesia Practice: Safety, Compliance & Advanced Clinical Care (Platinum Package) featuring 25.00 AANA CE credits, Butterfly iQ+ bundle clarity, and a scroll-triggered sticky Enroll Now bar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
