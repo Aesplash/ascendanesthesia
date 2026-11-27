@@ -14,9 +14,9 @@ import {
 import { AccreditationTrustStrip } from './components/AccreditationTrustStrip';
 import { ContactPage } from './components/ContactPage';
 import { CurriculumSection } from './components/CurriculumSection';
-import { EnrollmentCountdown } from './components/EnrollmentCountdown';
 import { EnrollmentModal } from './components/EnrollmentModal';
 import { FaqPage } from './components/FaqPage';
+import { PolicyModal, type PolicyTab } from './components/PolicyModal';
 import { SavingsCalculator } from './components/SavingsCalculator';
 import { SeminarUpdatesForm } from './components/SeminarUpdatesForm';
 import { SeminarsPage } from './components/SeminarsPage';
@@ -46,6 +46,13 @@ export default function App() {
   const [enrollModalTab, setEnrollModalTab] = useState<'enroll' | 'brochure'>(
     'enroll'
   );
+  const [policyModalOpen, setPolicyModalOpen] = useState(false);
+  const [policyModalTab, setPolicyModalTab] = useState<PolicyTab>('refund');
+
+  const openPolicyModal = (tab: PolicyTab) => {
+    setPolicyModalTab(tab);
+    setPolicyModalOpen(true);
+  };
 
   const [logoImgFailed, setLogoImgFailed] = useState(false);
   const [heroImgFailed, setHeroImgFailed] = useState(false);
@@ -619,7 +626,66 @@ export default function App() {
                   </div>
 
                   <div className="lg:col-span-5">
-                    <EnrollmentCountdown />
+                    <motion.aside
+                      aria-label="Program accreditation and package snapshot"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.28,
+                        delay: 0.16,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      className="hover-lift-dark rounded-2xl border border-[#BFE0E4]/25 bg-[#0A2039]/85 p-6 text-white backdrop-blur-md"
+                    >
+                      <div className="flex items-center justify-between gap-3 border-b border-[#BFE0E4]/20 pb-3.5">
+                        <span className="text-xs font-bold tracking-wider text-[#BFE0E4]">
+                          CUSTOM DESTINATION FORMAT
+                        </span>
+                        <span className="font-num-tabular text-xs font-semibold text-[#EEF3F9]">
+                          Anytime · Anywhere
+                        </span>
+                      </div>
+
+                      <dl className="mt-4 divide-y divide-[#BFE0E4]/15 text-sm">
+                        <div className="flex items-baseline justify-between gap-4 py-2.5">
+                          <dt className="text-[#BFE0E4]/90">AANA Approval</dt>
+                          <dd className="font-num-tabular font-semibold text-white">
+                            Code {COURSE_META.aanaCode}
+                          </dd>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-4 py-2.5">
+                          <dt className="text-[#BFE0E4]/90">CE Credit Total</dt>
+                          <dd className="font-num-tabular font-semibold text-white">
+                            25.00 MAC Ed (10.50 Pharm)
+                          </dd>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-4 py-2.5">
+                          <dt className="text-[#BFE0E4]/90">Hardware Bundle</dt>
+                          <dd className="font-semibold text-white">
+                            Butterfly iQ+ Order Form
+                          </dd>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-4 py-2.5">
+                          <dt className="text-[#BFE0E4]/90">Package Tiers</dt>
+                          <dd className="font-num-tabular font-semibold text-white">
+                            $499.99 – $3,899.99
+                          </dd>
+                        </div>
+                      </dl>
+
+                      <div className="mt-4 flex items-center justify-between gap-3 border-t border-[#BFE0E4]/20 pt-3.5 text-xs">
+                        <span className="text-[#BFE0E4]/90">
+                          Automatic AANA transcript upload
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => navigateTo('seminars')}
+                          className="font-bold text-white underline decoration-[#41909D] underline-offset-4 hover:text-[#BFE0E4] cursor-pointer"
+                        >
+                          Compare All 9 Courses
+                        </button>
+                      </div>
+                    </motion.aside>
                   </div>
                 </div>
               </div>
@@ -882,7 +948,7 @@ export default function App() {
                       transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <p className="text-xs font-bold tracking-wider text-[#357884]">
-                        PRACTITIONER FEEDBACK
+                        PRACTITIONER FEEDBACK · SAMPLE PREVIEW SLOTS
                       </p>
                       <h2 className="mt-2 text-balance font-display text-3xl font-semibold tracking-tight text-[#133C6B]">
                         Trusted by CRNAs for Recertification &amp; CME
@@ -1029,10 +1095,9 @@ export default function App() {
                     iQ+
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-[#EEF3F9]">
-                    Includes immediate access to Module 1 ButterflyIQ+ Order
-                    Form, Default &amp; Custom Course Brochures, and AANA credit
-                    reporting. Note: structured as a five-day seminar and not
-                    eligible for extension.
+                    Includes immediate access to the Module 1 ButterflyIQ+ Order
+                    Form, Default &amp; Custom Employer Brochures, and automated
+                    AANA credit reporting with zero post-tests.
                   </p>
                 </div>
 
@@ -1143,6 +1208,27 @@ export default function App() {
             </a>
             <button
               type="button"
+              onClick={() => openPolicyModal('refund')}
+              className="transition-colors duration-150 hover:text-white hover:underline underline-offset-4 cursor-pointer"
+            >
+              Refund Policy
+            </button>
+            <button
+              type="button"
+              onClick={() => openPolicyModal('terms')}
+              className="transition-colors duration-150 hover:text-white hover:underline underline-offset-4 cursor-pointer"
+            >
+              Terms
+            </button>
+            <button
+              type="button"
+              onClick={() => openPolicyModal('privacy')}
+              className="transition-colors duration-150 hover:text-white hover:underline underline-offset-4 cursor-pointer"
+            >
+              Privacy
+            </button>
+            <button
+              type="button"
               onClick={() =>
                 window.scrollTo({ top: 0, behavior: getScrollBehavior() })
               }
@@ -1176,6 +1262,13 @@ export default function App() {
         open={enrollModalOpen}
         initialTab={enrollModalTab}
         onClose={() => setEnrollModalOpen(false)}
+      />
+
+      {/* Refund, Terms & Privacy Policy Modal */}
+      <PolicyModal
+        open={policyModalOpen}
+        initialTab={policyModalTab}
+        onClose={() => setPolicyModalOpen(false)}
       />
       </div>
     </MotionConfig>

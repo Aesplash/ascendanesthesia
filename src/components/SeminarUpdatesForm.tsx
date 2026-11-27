@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { CheckCircle2, Mail } from 'lucide-react';
+import { COURSE_META } from '../data/courseData';
 
 export function SeminarUpdatesForm() {
   const [email, setEmail] = useState('');
@@ -59,28 +60,39 @@ export function SeminarUpdatesForm() {
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col gap-2 rounded-xl border border-[#5B978E]/40 bg-[#EEF8F9] p-4"
+                className="flex flex-col gap-2.5 rounded-xl border border-[#5B978E]/40 bg-[#EEF8F9] p-4"
               >
                 <div className="flex items-center gap-2 text-[#3B635D]">
                   <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" />
                   <p className="font-display text-sm font-semibold text-[#133C6B]">
-                    Subscribed for Future Seminar Updates
+                    Seminar Update Request Prepared
                   </p>
                 </div>
                 <p className="text-xs leading-relaxed text-[#333B47]">
-                  We added{' '}
                   <span className="font-bold text-[#0A2039]">
                     {subscribedEmail}
                   </span>{' '}
-                  to our CRNA seminar announcement list.
+                  is ready to join our CRNA seminar announcement list.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setSubscribedEmail('')}
-                  className="self-start text-xs font-bold text-[#357884] underline underline-offset-2 hover:text-[#133C6B] cursor-pointer"
-                >
-                  Add another email address
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href={`mailto:${COURSE_META.contactEmail}?subject=${encodeURIComponent(
+                      'Subscribe to Future Seminar Updates'
+                    )}&body=${encodeURIComponent(
+                      `Please add ${subscribedEmail} to Ascend Anesthesia Seminars updates for upcoming AANA CE courses and POCUS dates.`
+                    )}`}
+                    className="btn-press inline-flex min-h-[34px] items-center rounded-lg bg-[#133C6B] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#0A2039]"
+                  >
+                    Confirm via Email
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setSubscribedEmail('')}
+                    className="text-xs font-bold text-[#357884] underline underline-offset-2 hover:text-[#133C6B] cursor-pointer"
+                  >
+                    Add another email
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} noValidate>

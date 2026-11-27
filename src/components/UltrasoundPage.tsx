@@ -187,7 +187,7 @@ export function UltrasoundPage() {
                     <div className="flex items-center gap-2 text-[#3B635D]">
                       <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
                       <h4 className="font-display text-lg font-semibold text-[#133C6B]">
-                        Estimate Request Logged
+                        Estimate Request Prepared
                       </h4>
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-[#333B47]">
@@ -195,23 +195,28 @@ export function UltrasoundPage() {
                       <strong className="font-bold text-[#0A2039]">
                         {institution}
                       </strong>{' '}
-                      ({focusArea}, {groupSize}) has been prepared. You can also
-                      email{' '}
-                      <a
-                        href={`mailto:${COURSE_META.contactEmail}`}
-                        className="font-bold text-[#357884] underline"
-                      >
-                        {COURSE_META.contactEmail}
-                      </a>{' '}
-                      directly for urgent scheduling.
+                      ({focusArea}, {groupSize}) is ready to send directly to{' '}
+                      {COURSE_META.contactEmail}.
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => setSubmitted(false)}
-                      className="btn-press mt-4 min-h-[40px] rounded-lg border border-[#E4E7EC] bg-white px-4 py-2 text-xs font-bold text-[#133C6B] hover:bg-[#EEF3F9] cursor-pointer"
-                    >
-                      Submit Another Request
-                    </button>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href={`mailto:${COURSE_META.contactEmail}?subject=${encodeURIComponent(
+                          `On-Site Ultrasound Estimate Request: ${institution}`
+                        )}&body=${encodeURIComponent(
+                          `Institution / Group: ${institution}\nContact: ${contactName}\nWork Email: ${email}\nEstimated Participants: ${groupSize}\nTraining Focus: ${focusArea}\nLocation & Target Dates: ${notes || 'Flexible'}`
+                        )}`}
+                        className="btn-press inline-flex min-h-[40px] items-center rounded-lg bg-[#C22A2E] px-4 py-2 text-xs font-bold text-white hover:bg-[#BC1A1A]"
+                      >
+                        Send Proposal via Email App
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setSubmitted(false)}
+                        className="btn-press min-h-[40px] rounded-lg border border-[#E4E7EC] bg-white px-4 py-2 text-xs font-bold text-[#133C6B] hover:bg-[#EEF3F9] cursor-pointer"
+                      >
+                        Submit Another Request
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="mt-6 space-y-4">

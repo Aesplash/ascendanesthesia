@@ -9,12 +9,58 @@ interface EnrollmentModalProps {
   onClose: () => void;
 }
 
+interface TierCheckoutOption {
+  id: 'basic' | 'silver' | 'gold' | 'platinum';
+  label: string;
+  price: string;
+  lessons: string;
+  enrollUrl: string;
+  highlightNote: string;
+}
+
+const ENROLL_TIERS: TierCheckoutOption[] = [
+  {
+    id: 'platinum',
+    label: 'Platinum Package',
+    price: '$3,899.99',
+    lessons: '18 Lessons',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688173',
+    highlightNote: 'Butterfly iQ+ Handheld Ultrasound Order Form (Module 1)',
+  },
+  {
+    id: 'gold',
+    label: 'Gold Package',
+    price: '$1,349.99',
+    lessons: '17 Lessons',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688106',
+    highlightNote: 'Gold tier conference bundle + custom employer documentation',
+  },
+  {
+    id: 'silver',
+    label: 'Silver Package',
+    price: '$1,099.99',
+    lessons: '17 Lessons',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3688104',
+    highlightNote: 'Silver tier package benefits + custom destination brochure',
+  },
+  {
+    id: 'basic',
+    label: 'Basic Package',
+    price: '$499.99',
+    lessons: '17 Lessons',
+    enrollUrl: 'https://ascendanesthesia.thinkific.com/enroll/3686703',
+    highlightNote: 'Core 5-day 25.00 MAC Ed CE seminar (no hardware bundle)',
+  },
+];
+
 export function EnrollmentModal({
   open,
   initialTab = 'enroll',
   onClose,
 }: EnrollmentModalProps) {
   const [activeTab, setActiveTab] = useState<'enroll' | 'brochure'>(initialTab);
+  const [selectedTierId, setSelectedTierId] =
+    useState<TierCheckoutOption['id']>('platinum');
 
   useEffect(() => {
     if (open) {
@@ -40,6 +86,9 @@ export function EnrollmentModal({
   const [organization, setOrganization] = useState('');
   const [formError, setFormError] = useState('');
   const [brochureSubmitted, setBrochureSubmitted] = useState(false);
+
+  const selectedTier =
+    ENROLL_TIERS.find((t) => t.id === selectedTierId) ?? ENROLL_TIERS[0];
 
   const handleBrochureSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -87,7 +136,7 @@ export function EnrollmentModal({
               id="enroll-modal-title"
               className="mt-1 font-display text-2xl font-semibold text-[#133C6B]"
             >
-              Platinum Package Enrollment
+              Modern Anesthesia Practice Enrollment
             </h2>
           </div>
 
@@ -118,7 +167,7 @@ export function EnrollmentModal({
                 : 'text-[#6B7684] hover:text-[#133C6B]'
             }`}
           >
-            Direct Enrollment ({COURSE_META.price})
+            Direct Enrollment ({selectedTier.price})
           </button>
           <button
             type="button"
@@ -137,13 +186,44 @@ export function EnrollmentModal({
 
         {activeTab === 'enroll' ? (
           <div className="mt-6 space-y-5">
+            {/* Tier Selector */}
+            <div>
+              <p className="text-xs font-bold tracking-wider text-[#133C6B]">
+                SELECT PACKAGE TIER
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {ENROLL_TIERS.map((tier) => {
+                  const active = tier.id === selectedTier.id;
+                  return (
+                    <button
+                      key={tier.id}
+                      type="button"
+                      onClick={() => setSelectedTierId(tier.id)}
+                      className={`btn-press flex flex-col items-start rounded-xl border p-2.5 text-left transition-colors cursor-pointer ${
+                        active
+                          ? 'border-[#133C6B] bg-[#EEF3F9]'
+                          : 'border-[#E4E7EC] bg-white hover:bg-[#F6F1E9]'
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-[#133C6B]">
+                        {tier.label.replace(' Package', '')}
+                      </span>
+                      <span className="mt-0.5 font-num-tabular text-sm font-semibold text-[#0A2039]">
+                        {tier.price}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="rounded-xl border border-[#E4E7EC] bg-white p-4">
               <div className="flex items-baseline justify-between gap-4 border-b border-[#E4E7EC] pb-3">
                 <span className="text-sm font-bold text-[#133C6B]">
-                  Platinum Package Total
+                  {selectedTier.label} ({selectedTier.lessons})
                 </span>
                 <span className="font-num-tabular text-xl font-semibold text-[#0A2039]">
-                  {COURSE_META.price}
+                  {selectedTier.price}
                 </span>
               </div>
 
@@ -153,10 +233,7 @@ export function EnrollmentModal({
                     className="mt-0.5 h-4 w-4 shrink-0 text-[#3B635D]"
                     aria-hidden="true"
                   />
-                  <span>
-                    Butterfly iQ+ Handheld Ultrasound Order Form (unlocked in
-                    Module 1)
-                  </span>
+                  <span>{selectedTier.highlightNote}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2
@@ -226,7 +303,7 @@ export function EnrollmentModal({
 
               {acknowledgedPolicy ? (
                 <a
-                  href={COURSE_META.enrollUrl}
+                  href={selectedTier.enrollUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-[44px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#C22A2E] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#BC1A1A]"
@@ -262,12 +339,22 @@ export function EnrollmentModal({
                     {COURSE_META.aanaCode}
                   </span>{' '}
                   (25.00 MAC Ed CE Credits, 10.50 Pharm) and the{' '}
-                  {COURSE_META.price} Platinum Package is ready for{' '}
-                  <span className="font-bold text-[#0A2039]">{email}</span>. Our
-                  administrative staff can customize your final seminar brochure
-                  immediately after registration.
+                  {selectedTier.price} {selectedTier.label} is ready for{' '}
+                  <span className="font-bold text-[#0A2039]">{email}</span>.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
+                  <a
+                    href={`mailto:${COURSE_META.contactEmail}?subject=${encodeURIComponent(
+                      `Employer CME Pre-Approval Brochure Request (${selectedTier.label})`
+                    )}&body=${encodeURIComponent(
+                      `Name & Credentials: ${fullName}\nEmail: ${email}\nEmployer / Hospital: ${
+                        organization || 'N/A'
+                      }\nPackage Tier: ${selectedTier.label} (${selectedTier.price})\nCourse: Modern Anesthesia Practice (AANA Code ${COURSE_META.aanaCode})`
+                    )}`}
+                    className="btn-press inline-flex min-h-[40px] items-center rounded-lg bg-[#133C6B] px-4 py-2 text-xs font-bold text-white hover:bg-[#0A2039]"
+                  >
+                    Open Request in Email App
+                  </a>
                   <button
                     type="button"
                     onClick={() => {
