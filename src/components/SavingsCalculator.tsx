@@ -228,7 +228,7 @@ export function SavingsCalculator({ onRequestQuote }: SavingsCalculatorProps) {
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
-                {[1, 3, 5, 10, 20].map((preset) => (
+                {[3, 5, 10, 20].map((preset) => (
                   <button
                     key={preset}
                     type="button"
@@ -239,7 +239,7 @@ export function SavingsCalculator({ onRequestQuote }: SavingsCalculatorProps) {
                         : 'border-[#E4E7EC] bg-[#FBFAF7] text-[#333B47] hover:bg-[#EEF3F9]'
                     }`}
                   >
-                    {preset === 1 ? '1 Individual' : `${preset} Clinicians`}
+                    {preset} Clinicians
                   </button>
                 ))}
               </div>
